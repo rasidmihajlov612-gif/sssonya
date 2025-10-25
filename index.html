@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Для тебя 💗</title>
+  <style>
+    :root{
+      --bg:#0e1c18;
+      --card:#12241f;
+      --accent:#f8a1b6;
+      --accent-light:#ffd7e0;
+      --text:#ecf3ef;
+      --green:#1b3d34;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg, var(--bg) 0%, #0b1915 100%);
+      font-family:'Inter',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      color:var(--text);
+    }
+    .card{
+      width:min(920px,94%);
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:20px;
+      padding:36px;
+      display:grid;
+      grid-template-columns:1fr 340px;
+      gap:24px;
+      box-shadow:0 10px 35px rgba(11,35,27,0.8);
+      align-items:center;
+    }
+    .left{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+    .compliment{
+      display:inline-block;
+      background:linear-gradient(90deg, rgba(248,161,182,0.15), rgba(255,215,224,0.1));
+      padding:24px 28px;
+      border-radius:18px;
+      font-weight:700;
+      color:var(--text);
+      line-height:1.4;
+      font-size:1.8rem;
+      margin-top:10px;
+      box-shadow:0 0 20px rgba(248,161,182,0.12);
+    }
+    .counter{
+      margin-top:32px;
+      background:rgba(255,255,255,0.03);
+      padding:16px;
+      border-radius:14px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+    }
+    .time-piece{flex:1;text-align:center}
+    .time-piece .num{font-size:28px;font-weight:700;color:var(--accent-light)}
+    .time-piece .label{font-size:13px;opacity:0.8;margin-top:6px}
+    .right{display:flex;flex-direction:column;align-items:center;gap:14px}
+    .heart{
+      width:220px;
+      height:220px;
+      border-radius:22px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-light));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 12px 40px rgba(248,161,182,0.2);
+      animation:pulse 3s ease-in-out infinite;
+      position:relative;
+    }
+    .heart:after{
+      content:'❤';
+      font-size:90px;
+      color:white;
+      filter:drop-shadow(0 6px 18px rgba(248,161,182,0.25));
+    }
+    @keyframes pulse {
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.05)}
+    }
+    .meta{font-size:14px;text-align:center;opacity:0.9;padding:8px;color:var(--accent-light)}
+    footer{grid-column:1/-1;margin-top:10px;text-align:center;font-size:14px;opacity:0.8;color:var(--accent-light)}
+    @media (max-width:760px){.card{grid-template-columns:1fr;gap:18px}.right{flex-direction:row;justify-content:space-between}}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="left">
+      <div class="compliment" id="compliment">ПРИВЕТ, СЕГОДНЯ ТЫ САМАЯ прекрасная, тёплая и нежная — моё счастливое место.</div>
+
+      <div class="counter" aria-live="polite">
+        <div class="time-piece">
+          <div class="num" id="days">0</div>
+          <div class="label">Дней вместе</div>
+        </div>
+        <div class="time-piece">
+          <div class="num" id="hours">0</div>
+          <div class="label">Часов сегодня</div>
+        </div>
+        <div class="time-piece">
+          <div class="num" id="minutes">0</div>
+          <div class="label">Минут</div>
+        </div>
+        <div class="time-piece">
+          <div class="num" id="seconds">0</div>
+          <div class="label">Секунд</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="heart" aria-hidden="true"></div>
+      <div class="meta">Каждый день — новый повод улыбнуться.<br>Сделано с любовью 💗</div>
+    </div>
+
+    <footer>Это напоминание, как много ты для меня значишь.</footer>
+  </div>
+
+  <script>
+    const start = new Date(2025, 7, 22, 0, 0, 0);
+
+    function update() {
+      const now = new Date();
+      const diff = now - start;
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById('days').textContent = numberWithSpaces(days);
+      document.getElementById('hours').textContent = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+
+    function pad(n){return String(n).padStart(2,'0')}
+    function numberWithSpaces(x){return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ')}
+
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
